@@ -21,6 +21,8 @@ Page({
     avoid: [],
     compItems: [],
     defaultTags: DEFAULT_TAGS,
+    // 简单模式：默认只调人数；搭配/忌口收进「更多选项」
+    advanced: false,
     // 模式与结果
     mode: 'random', // random | wheel
     dishes: [],
@@ -62,6 +64,10 @@ Page({
         count: this.data.composition[t] || 0,
       })),
     });
+  },
+
+  toggleAdvanced() {
+    this.setData({ advanced: !this.data.advanced });
   },
 
   incPeople() { this.setData({ people: Math.min(20, this.data.people + 1) }); },
@@ -127,13 +133,15 @@ Page({
   },
 
   // ===== 大转盘 =====
-  startWheel() {
+  async startWheel() {
     const { composition, avoid } = this.data;
     const wheelTypes = TYPE_ORDER.filter((t) => (composition[t] || 0) > 0);
     if (!wheelTypes.length) {
       wx.showToast({ title: '搭配里一个类型都没选', icon: 'none' });
       return;
     }
+    // 转盘同样避开近 7 天吃过的
+    this.recentIds = await this.recentDishIds();
     // 菜不够的类直接跳过并提示
     const skipped = wheelTypes.filter((t) => !this.data.dishes.some((d) => d.type === t));
     if (skipped.length) {
@@ -157,9 +165,9 @@ Page({
     const type = this.data.wheelTypes[next];
     const { avoid, excludedIds } = this.data;
     const pool = [];
-    // 上盘最多 8 个；逐个抽取直到抽满或池空
+    // 上盘最多 8 个；逐个抽取直到抽满或池空（排除本单已选 + 近 7 天）
     const remaining = this.data.dishes.filter((d) => d.type === type);
-    const excl = excludedIds.slice();
+    const excl = excludedIds.concat(this.recentIds || []);
     while (pool.length < 8) {
       const pick = pickForWheel(remaining, type, { avoid, excludeIds: excl });
       if (!pick) break;

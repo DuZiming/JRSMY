@@ -43,6 +43,9 @@ Page({
     sourceIndex: 0,
     spicyOptions: ['不辣', '微辣', '中辣', '重辣'],
     defaultTags: DEFAULT_TAGS,
+    canvasW: 300,
+    canvasH: 300,
+    canvasScale: 1,
   },
 
   onLoad(options) {
@@ -91,7 +94,53 @@ Page({
     this.setData({ photos });
   },
 
-  // AI 识别：上传封面图（第一张新图）→ 调云函数 → 解析预填；失败 toast 降级手填
+  // 点击照片：旋转 / 删除（解决手机照片方向不对、无法调整的问题）
+  onPhotoTap(e) {
+    const { index } = e.currentTarget.dataset;
+    const path = this.data.photos[index];
+    const isCloud = path.startsWith('cloud://');
+    const items = isCloud ? ['删除这张'] : ['向右旋转 90°', '删除这张'];
+    wx.showActionSheet({
+      itemList: items,
+      success: (res) => {
+        if (isCloud) {
+          if (res.tapIndex === 0) this.removePhoto(e);
+        } else if (res.tapIndex === 0) {
+          this.rotatePhoto(index);
+        } else if (res.tapIndex === 1) {
+          this.removePhoto(e);
+        }
+      },
+    });
+  },
+
+  // 老式 canvas 顺时针旋转 90°，产物替换原图
+  async rotatePhoto(index) {
+    const path = this.data.photos[index];
+    try {
+      const info = await new Promise((res, rej) => wx.getImageInfo({ src: path, success: res, fail: rej }));
+      const w = info.width;
+      const h = info.height;
+      this.setData({ canvasW: Math.min(h, 1600), canvasH: Math.min(w, 1600), canvasScale: Math.min(h, 1600) / h });
+      await new Promise((res) => setTimeout(res, 80)); // 等 canvas 尺寸生效
+      const ctx = wx.createCanvasContext('rotate-canvas', this);
+      const s = this.data.canvasScale;
+      ctx.translate((h * s) / 2, (w * s) / 2);
+      ctx.rotate(Math.PI / 2);
+      ctx.drawImage(path, (-w * s) / 2, (-h * s) / 2, w * s, h * s);
+      await new Promise((res) => ctx.draw(false, res));
+      const out = await new Promise((res, rej) =>
+        wx.canvasToTempFilePath({ canvasId: 'rotate-canvas', fileType: 'jpg', quality: 0.92, success: res, fail: rej }, this)
+      );
+      const photos = this.data.photos.slice();
+      photos[index] = out.tempFilePath;
+      this.setData({ photos });
+    } catch (err) {
+      wx.showToast({ title: '旋转失败', icon: 'none' });
+    }
+  },
+
+  // AI 识别：上传封面图 → 调云函数（失败自动重试 1 次）→ 解析预填；失败 toast 降级手填
   async recognize() {
     const cover = this.data.photos.find((p) => !p.startsWith('cloud://'));
     if (!cover) {
@@ -101,10 +150,13 @@ Page({
     this.setData({ recognizing: true });
     try {
       const up = await uploadDishPhotos([cover]);
-      const res = await wx.cloud.callFunction({
-        name: 'recognizeDish',
-        data: { fileID: up[0] },
-      });
+      const call = () => wx.cloud.callFunction({ name: 'recognizeDish', data: { fileID: up[0] } });
+      let res;
+      try {
+        res = await call();
+      } catch (e) {
+        res = await call(); // 偶现超时/网络抖动重试一次
+      }
       const r = res.result || {};
       if (r.code !== 0) {
         wx.showToast({ title: r.message || '识别失败，请手动填写', icon: 'none' });

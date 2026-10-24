@@ -37,14 +37,10 @@ async function listMenusGroupedByDate() {
   return groups;
 }
 
-async function toggleBought(menuId, itemIndex) {
-  const menu = await getMenu(menuId);
+// 直接按页内已知状态写勾选（免整文档回读，单次往返，页面侧乐观更新）
+async function updateBought(menuId, itemIndex, bought) {
   const key = `shopping_list.${itemIndex}.bought`;
-  const current = menu.shopping_list[itemIndex].bought;
-  await db().collection('menus').doc(menuId).update({
-    data: { [key]: !current },
-  });
-  return !current;
+  await db().collection('menus').doc(menuId).update({ data: { [key]: bought } });
 }
 
-module.exports = { addMenu, getMenu, listMenusGroupedByDate, toggleBought, formatDateKey };
+module.exports = { addMenu, getMenu, listMenusGroupedByDate, updateBought, formatDateKey };

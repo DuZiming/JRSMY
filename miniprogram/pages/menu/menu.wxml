@@ -1,34 +1,46 @@
 <view class="page">
+  <!-- Hero：非对称提问式入口 -->
   <view class="hero" bindtap="create">
-    <text class="hero-title">今天食咩野？</text>
-    <text class="hero-sub">点这里，随机一套或转个盘 🎲🎡</text>
+    <view class="hero-blob" />
+    <text class="hero-q">今天</text>
+    <text class="hero-q hero-accent">食咩野？</text>
+    <text class="hero-sub">随机一套，或转个盘决定</text>
+    <view class="hero-cta">
+      <text class="icon icon-plus" />
+      <text>开始配菜</text>
+    </view>
   </view>
 
-  <view wx:if="{{!loading && !groups.length}}" class="empty">
-    <text class="empty-icon">🍳</text>
-    <text>还没有菜单记录，来生成第一份吧</text>
+  <view wx:if="{{!loading && !groups.length}}" class="empty card">
+    <text class="icon icon-dice empty-icon" />
+    <text class="empty-text">还没有菜单记录</text>
+    <text class="empty-sub">点上面的卡片，生成第一份菜单</text>
   </view>
 
   <view wx:for="{{groups}}" wx:key="date" class="group">
     <view class="date-bar">
       <text class="date-label">{{item.label}}</text>
+      <view class="date-dot" />
       <text class="date-raw">{{item.date}}</text>
     </view>
     <view
       wx:for="{{item.menus}}"
       wx:for-item="menu"
       wx:key="_id"
-      class="menu-card"
+      class="card menu-card"
       data-id="{{menu._id}}"
       bindtap="openDetail"
     >
       <view class="menu-head">
-        <text class="menu-mode">{{menu.mode === 'wheel' ? '🎡 转盘' : '🎲 随机'}}</text>
+        <text class="menu-mode">{{menu.mode === 'wheel' ? '转盘' : '随机'}}</text>
         <text class="menu-info">{{menu.items.length}} 道菜{{menu.total_calories ? ' · ' + menu.total_calories + ' kcal' : ''}}</text>
+        <text class="icon icon-chevron" />
       </view>
       <view class="menu-dishes">
         <text wx:for="{{menu.items}}" wx:for-item="dish" wx:key="dish_id" class="menu-dish">{{dish.name}}</text>
       </view>
     </view>
   </view>
+
+  <view class="tabbar-gap" />
 </view>

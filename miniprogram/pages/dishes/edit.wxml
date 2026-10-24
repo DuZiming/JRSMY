@@ -4,17 +4,23 @@
     <view class="section-title">菜品照片（至少 1 张）</view>
     <view class="photo-grid">
       <view wx:for="{{photos}}" wx:key="*this" class="photo-cell">
-        <image src="{{item}}" mode="aspectFill" class="photo" data-index="{{index}}" bindtap="removePhoto" />
-        <view class="photo-del">×</view>
+        <image src="{{item}}" mode="aspectFill" class="photo" data-index="{{index}}" bindtap="onPhotoTap" />
+        <view class="photo-hint">点按可旋转/删除</view>
       </view>
       <view wx:if="{{photos.length < 9}}" class="photo-add" bindtap="choosePhotos">＋</view>
     </view>
+    <canvas
+      canvas-id="rotate-canvas"
+      class="rotate-canvas"
+      style="width: {{canvasW}}px; height: {{canvasH}}px;"
+    />
     <button
       class="ai-btn {{recognizing ? 'loading' : ''}}"
       bindtap="recognize"
       disabled="{{recognizing}}"
     >
-      {{recognizing ? '识别中…' : '✨ 智能识别（用第一张照片自动填表）'}}
+      <text class="icon icon-spark" />
+      {{recognizing ? '识别中…' : '智能识别，自动填表'}}
     </button>
     <view class="ai-tip">识别失败或不准都可以手动改，不耽误保存</view>
   </view>

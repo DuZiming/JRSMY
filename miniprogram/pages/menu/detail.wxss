@@ -19,14 +19,14 @@
 
 .mode {
   font-size: 24rpx;
-  color: #999;
+  color: var(--ink-3);
 }
 
 .dish-row {
   display: flex;
   align-items: center;
   padding: 14rpx 0;
-  border-bottom: 1rpx solid #f2f2f2;
+  border-bottom: 1rpx solid var(--line);
 }
 
 .dish-row:last-child {
@@ -52,20 +52,20 @@
 
 .dish-sub {
   font-size: 24rpx;
-  color: #999;
+  color: var(--ink-3);
 }
 
 .total {
   margin-top: 20rpx;
   text-align: right;
-  color: #d35400;
+  color: var(--pumpkin-deep);
   font-size: 28rpx;
   font-weight: 600;
 }
 
 .section-title {
   font-size: 28rpx;
-  color: #666;
+  color: var(--ink-2);
   margin-bottom: 12rpx;
 }
 
@@ -79,7 +79,7 @@
   align-items: center;
   gap: 16rpx;
   padding: 18rpx 0;
-  border-bottom: 1rpx solid #f2f2f2;
+  border-bottom: 1rpx solid var(--line);
   font-size: 30rpx;
 }
 
@@ -98,7 +98,7 @@
 
 .check {
   font-size: 36rpx;
-  color: #52a565;
+  color: var(--leaf);
 }
 
 .shop-name {
@@ -106,6 +106,6 @@
 }
 
 .shop-amount {
-  color: #999;
+  color: var(--ink-3);
   font-size: 26rpx;
 }

@@ -1,5 +1,5 @@
 const { buildMenuDoc } = require('../../utils/shoppingList');
-const { addMenu, getMenu, toggleBought } = require('../../services/menus');
+const { addMenu, getMenu, updateBought } = require('../../services/menus');
 
 const TYPE_ZH = { meat: '荤', veg: '素', staple: '主食', soup: '汤', drink: '饮' };
 
@@ -49,12 +49,15 @@ Page({
     }
   },
 
+  // 乐观更新：先改 UI 再落库，失败回滚
   async toggle(e) {
     const { index } = e.currentTarget.dataset;
+    const next = !this.data.menu.shopping_list[index].bought;
+    this.setData({ [`menu.shopping_list[${index}].bought`]: next });
     try {
-      const bought = await toggleBought(this.data.menu._id, index);
-      this.setData({ [`menu.shopping_list[${index}].bought`]: bought });
+      await updateBought(this.data.menu._id, index, next);
     } catch (err) {
+      this.setData({ [`menu.shopping_list[${index}].bought`]: !next });
       wx.showToast({ title: '更新失败', icon: 'none' });
     }
   },

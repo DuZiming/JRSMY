@@ -81,5 +81,8 @@
     </view>
   </view>
 
-  <view class="fab" bindtap="addDish">＋</view>
+  <view class="fab" bindtap="addDish">
+    <text class="icon icon-plus" />
+  </view>
+  <view class="tabbar-gap" />
 </view>

@@ -5,6 +5,18 @@ function db() {
   return wx.cloud.database();
 }
 
+// 上传前压缩（quality 70，失败容忍用原图）——同时提速上传与 AI 识别
+function compressTemp(filePath) {
+  return new Promise((resolve) => {
+    wx.compressImage({
+      src: filePath,
+      quality: 70,
+      success: (r) => resolve(r.tempFilePath),
+      fail: () => resolve(filePath),
+    });
+  });
+}
+
 // 单张上传，失败自动重试 1 次；仍失败 reject
 function uploadOne(cloudPath, filePath) {
   return wx.cloud
@@ -12,13 +24,14 @@ function uploadOne(cloudPath, filePath) {
     .catch(() => wx.cloud.uploadFile({ cloudPath, filePath }));
 }
 
-// 批量上传菜品图，返回 fileID 数组；任一张最终失败则整体 reject
+// 批量上传菜品图（先压缩），返回 fileID 数组；任一张最终失败则整体 reject
 async function uploadDishPhotos(tempFilePaths) {
   const stamp = Date.now();
   const results = [];
   for (let i = 0; i < tempFilePaths.length; i += 1) {
-    const ext = (tempFilePaths[i].match(/\.(jpe?g|png|webp|gif)$/i) || [, 'jpg'])[1];
-    const res = await uploadOne(`dishes/${stamp}-${i}.${ext}`, tempFilePaths[i]);
+    const src = await compressTemp(tempFilePaths[i]);
+    const ext = (src.match(/\.(jpe?g|png|webp|gif)$/i) || [, 'jpg'])[1];
+    const res = await uploadOne(`dishes/${stamp}-${i}.${ext}`, src);
     results.push(res.fileID);
   }
   return results;

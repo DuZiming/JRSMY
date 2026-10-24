@@ -1,6 +1,87 @@
-/* 全局样式 */
+/* ============ 全局设计 tokens · Organic 暖调家常厨房 ============ */
+/* 色板：奶油底 / 墨 / 叶绿主 / 南瓜橘 CTA / 浅叶 / 暖沙 / 警示 */
 page {
-  background: #f6f6f6;
+  --bg: #FAF6EF;
+  --ink: #2F2A24;
+  --ink-2: #6B6357;
+  --ink-3: #9A9184;
+  --leaf: #3E7B4F;
+  --leaf-deep: #2F6340;
+  --leaf-tint: #E9F2E6;
+  --pumpkin: #E07A3A;
+  --pumpkin-deep: #C96528;
+  --pumpkin-tint: #FBEEE2;
+  --sand: #F3EBDD;
+  --card: #FFFFFF;
+  --line: #EFE8DB;
+  --danger: #C64B3C;
+  --danger-tint: #FAECEA;
+
+  background: var(--bg);
+  color: var(--ink);
   font-size: 28rpx;
-  color: #333;
+  font-weight: 400;
+  line-height: 1.55;
 }
+
+/* 通用分组卡 */
+.card {
+  background: var(--card);
+  border-radius: 28rpx;
+  padding: 28rpx;
+  box-shadow: 0 2rpx 12rpx rgba(47, 42, 36, 0.04);
+}
+
+/* 分组标题：小标签字距 */
+.sec-label {
+  font-size: 24rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+  color: var(--ink-3);
+}
+
+/* 主/次按钮 */
+.btn-primary {
+  background: var(--leaf);
+  color: #fff;
+  border-radius: 999rpx;
+  font-weight: 600;
+}
+.btn-primary::after { border: none; }
+
+.btn-cta {
+  background: var(--pumpkin);
+  color: #fff;
+  border-radius: 999rpx;
+  font-weight: 700;
+}
+.btn-cta::after { border: none; }
+
+.btn-ghost {
+  background: var(--card);
+  color: var(--leaf);
+  border: 2rpx solid var(--leaf);
+  border-radius: 999rpx;
+  font-weight: 600;
+}
+.btn-ghost::after { border: none; }
+
+/* 描边图标（SVG data-URI，替代 emoji） */
+.icon {
+  display: inline-block;
+  width: 34rpx;
+  height: 34rpx;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  vertical-align: -6rpx;
+}
+.icon-spark { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z'/%3E%3Cpath d='M19 15l.9 2.4 2.4.9-2.4.9-.9 2.4-.9-2.4-2.4-.9 2.4-.9z'/%3E%3C/svg%3E"); }
+.icon-dice { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233E7B4F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='4'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.4' fill='%233E7B4F' stroke='none'/%3E%3Ccircle cx='15.5' cy='15.5' r='1.4' fill='%233E7B4F' stroke='none'/%3E%3Ccircle cx='15.5' cy='8.5' r='1.4' fill='%233E7B4F' stroke='none'/%3E%3Ccircle cx='8.5' cy='15.5' r='1.4' fill='%233E7B4F' stroke='none'/%3E%3C/svg%3E"); }
+.icon-wheel { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233E7B4F' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Ccircle cx='12' cy='12' r='2.4'/%3E%3Cpath d='M12 3v6.6M12 14.4V21M3 12h6.6M14.4 12H21' stroke-width='1.6'/%3E%3C/svg%3E"); }
+.icon-cart { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B6357' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='20' r='1.6'/%3E%3Ccircle cx='17' cy='20' r='1.6'/%3E%3Cpath d='M3 3h2.5l2.2 11.5h10.8l2-8H6'/%3E%3C/svg%3E"); }
+.icon-plus { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E"); }
+.icon-chevron { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B9AF9F' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5l7 7-7 7'/%3E%3C/svg%3E"); }
+.icon-trash { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C64B3C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3'/%3E%3C/svg%3E"); }
+.icon-camera { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239A9184' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8h3l2-3h6l2 3h3v12H4z'/%3E%3Ccircle cx='12' cy='13.5' r='3.6'/%3E%3C/svg%3E"); }
+.icon-rotate { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 12a9 9 0 1 1-3-6.7'/%3E%3Cpath d='M21 3v5h-5'/%3E%3C/svg%3E"); }
+.icon-check { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233E7B4F' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5.5 5.5L20 6.5'/%3E%3C/svg%3E"); }

@@ -1,16 +1,20 @@
 <view class="page" bindtouchstart="onTouchStart" bindtouchend="onTouchEnd">
-  <!-- 需求 -->
-  <view class="section">
-    <view class="row-title">
-      <text class="section-title">几个人吃</text>
-      <view class="stepper">
-        <view class="step-btn" bindtap="decPeople">－</view>
-        <text class="step-num">{{people}} 人</text>
-        <view class="step-btn" bindtap="incPeople">＋</view>
-      </view>
+  <!-- 简单模式：只调人数 -->
+  <view class="card people-card">
+    <view class="people-q">今天几个人吃？</view>
+    <view class="stepper big">
+      <view class="step-btn" bindtap="decPeople">－</view>
+      <text class="people-num">{{people}}</text>
+      <view class="step-btn" bindtap="incPeople">＋</view>
     </view>
+    <view class="adv-toggle" bindtap="toggleAdvanced">
+      {{advanced ? '收起更多选项 ▴' : '更多选项（搭配 / 忌口）▾'}}
+    </view>
+  </view>
 
-    <view class="section-title gap">搭配（各来几道）</view>
+  <!-- 更多选项：手动指定搭配与忌口 -->
+  <view wx:if="{{advanced}}" class="card">
+    <view class="sec-label">搭配（各来几道）</view>
     <view class="comp-row">
       <view wx:for="{{compItems}}" wx:key="key" class="comp-item">
         <text class="comp-label">{{item.label}}</text>
@@ -22,7 +26,7 @@
       </view>
     </view>
 
-    <view class="section-title gap">忌口 / 排除</view>
+    <view class="sec-label gap">忌口 / 排除</view>
     <view class="tags">
       <text wx:if="{{!avoid.length}}" class="hint">不选就不排除</text>
       <view
@@ -38,8 +42,12 @@
 
   <!-- 模式切换 -->
   <view class="mode-switch">
-    <view class="mode {{mode === 'random' ? 'on' : ''}}" data-mode="random" bindtap="setMode">🎲 随机整单</view>
-    <view class="mode {{mode === 'wheel' ? 'on' : ''}}" data-mode="wheel" bindtap="setMode">🎡 大转盘</view>
+    <view class="mode {{mode === 'random' ? 'on' : ''}}" data-mode="random" bindtap="setMode">
+      <text class="icon icon-dice mode-icon {{mode === 'random' ? 'active' : ''}}" /> 随机整单
+    </view>
+    <view class="mode {{mode === 'wheel' ? 'on' : ''}}" data-mode="wheel" bindtap="setMode">
+      <text class="icon icon-wheel mode-icon {{mode === 'wheel' ? 'active' : ''}}" /> 大转盘
+    </view>
   </view>
 
   <!-- 随机整单 -->

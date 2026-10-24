@@ -10,6 +10,10 @@
       <input type="nickname" class="nick-input" value="{{nickname}}" bindinput="onNickname" placeholder="点这里设置昵称" />
     </view>
   </view>
+  <view wx:if="{{!nickname}}" class="first-run card">
+    <text class="first-run-title">认识一下</text>
+    <text class="first-run-sub">点上面的圆圈选个头像、写个昵称——之后生成的菜单会署上你的名字，家人一眼认出。</text>
+  </view>
 
   <!-- 默认偏好 -->
   <view class="section">
@@ -57,4 +61,5 @@
   </view>
 
   <button class="save-btn" type="primary" bindtap="saveAll" loading="{{saving}}">保存</button>
+  <view class="tabbar-gap" />
 </view>

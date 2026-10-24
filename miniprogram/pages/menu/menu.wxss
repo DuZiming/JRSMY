@@ -1,78 +1,140 @@
+/* Hero：暖沙底大字提问 + 右下角 CTA（非对称） */
 .hero {
-  background: linear-gradient(135deg, #52a565, #3d8a50);
-  border-radius: 20rpx;
-  padding: 48rpx 32rpx;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  gap: 12rpx;
+  position: relative;
+  background: var(--sand);
+  border-radius: 32rpx;
+  padding: 56rpx 40rpx 120rpx;
+  overflow: hidden;
+  margin: 24rpx 24rpx 0;
 }
 
-.hero-title {
-  font-size: 44rpx;
-  font-weight: 700;
+.hero-blob {
+  position: absolute;
+  right: -120rpx;
+  top: -120rpx;
+  width: 380rpx;
+  height: 380rpx;
+  border-radius: 50%;
+  background: var(--leaf-tint);
+  opacity: 0.8;
+}
+
+.hero-q {
+  display: block;
+  font-size: 72rpx;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.hero-accent {
+  color: var(--leaf-deep);
 }
 
 .hero-sub {
+  display: block;
+  margin-top: 12rpx;
+  color: var(--ink-2);
   font-size: 26rpx;
-  opacity: 0.9;
 }
 
+.hero-cta {
+  position: absolute;
+  right: 40rpx;
+  bottom: 36rpx;
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  background: var(--pumpkin);
+  color: #fff;
+  font-weight: 700;
+  font-size: 30rpx;
+  padding: 20rpx 40rpx;
+  border-radius: 999rpx;
+  box-shadow: 0 8rpx 24rpx rgba(224, 122, 58, 0.35);
+}
+
+/* 空态 */
 .empty {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16rpx;
-  padding: 100rpx 0;
-  color: #999;
-  font-size: 28rpx;
+  gap: 8rpx;
+  padding: 80rpx 0;
+  margin-top: 24rpx;
 }
 
 .empty-icon {
-  font-size: 80rpx;
+  width: 88rpx;
+  height: 88rpx;
+  margin-bottom: 8rpx;
 }
 
+.empty-text {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.empty-sub {
+  font-size: 24rpx;
+  color: var(--ink-3);
+}
+
+/* 历史分组 */
 .group {
-  margin-top: 32rpx;
+  margin: 36rpx 24rpx 0;
 }
 
 .date-bar {
   display: flex;
-  align-items: baseline;
-  gap: 16rpx;
-  margin-bottom: 16rpx;
+  align-items: center;
+  gap: 14rpx;
+  margin: 0 8rpx 16rpx;
 }
 
 .date-label {
-  font-size: 34rpx;
-  font-weight: 700;
+  font-size: 36rpx;
+  font-weight: 800;
+}
+
+.date-dot {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background: var(--pumpkin);
 }
 
 .date-raw {
-  font-size: 24rpx;
-  color: #999;
+  font-size: 22rpx;
+  color: var(--ink-3);
+  letter-spacing: 1rpx;
 }
 
 .menu-card {
-  background: #fff;
-  border-radius: 16rpx;
-  padding: 24rpx;
   margin-bottom: 16rpx;
 }
 
 .menu-head {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 14rpx;
   margin-bottom: 16rpx;
 }
 
 .menu-mode {
-  font-size: 26rpx;
+  background: var(--leaf-tint);
+  color: var(--leaf-deep);
+  font-size: 22rpx;
+  font-weight: 700;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
 }
 
 .menu-info {
+  flex: 1;
   font-size: 24rpx;
-  color: #999;
+  color: var(--ink-3);
 }
 
 .menu-dishes {
@@ -82,9 +144,14 @@
 }
 
 .menu-dish {
-  background: #f0f7f2;
-  color: #3d7a4c;
+  background: var(--bg);
+  border: 1rpx solid var(--line);
+  color: var(--ink-2);
   font-size: 26rpx;
-  border-radius: 8rpx;
-  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+  padding: 6rpx 22rpx;
+}
+
+.tabbar-gap {
+  height: 180rpx;
 }

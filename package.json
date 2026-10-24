@@ -1,0 +1,12 @@
+{
+  "name": "jinri-shimeye",
+  "version": "0.1.0",
+  "private": true,
+  "description": "今日食咩野 微信小程序",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

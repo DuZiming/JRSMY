@@ -1,0 +1,27 @@
+{
+  "pages": [
+    "pages/menu/menu",
+    "pages/menu/create",
+    "pages/menu/detail",
+    "pages/dishes/dishes",
+    "pages/dishes/edit",
+    "pages/dishes/detail",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#52a565",
+    "navigationBarTitleText": "今日食咩野",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f6f6f6"
+  },
+  "tabBar": {
+    "custom": true,
+    "list": [
+      { "pagePath": "pages/menu/menu", "text": "今日菜单" },
+      { "pagePath": "pages/dishes/dishes", "text": "菜品库" },
+      { "pagePath": "pages/profile/profile", "text": "我的" }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

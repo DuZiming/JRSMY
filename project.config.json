@@ -1,0 +1,14 @@
+{
+  "appid": "PLACEHOLDER_APPID",
+  "projectname": "jinri-shimeye",
+  "compileType": "miniprogram",
+  "miniprogramRoot": "miniprogram/",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "libVersion": "3.7.1",
+  "setting": {
+    "es6": true,
+    "postcss": true,
+    "minified": true,
+    "urlCheck": true
+  }
+}

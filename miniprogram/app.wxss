@@ -1,0 +1,6 @@
+/* 全局样式 */
+page {
+  background: #f6f6f6;
+  font-size: 28rpx;
+  color: #333;
+}

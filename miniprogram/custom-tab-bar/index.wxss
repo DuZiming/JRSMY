@@ -1,0 +1,29 @@
+/* 纯文字 tabBar：无图标槽位，flex 垂直居中消除标签上方空白 */
+.tab-bar {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1rpx solid #e5e5e5;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100rpx;
+}
+
+.tab-text {
+  font-size: 30rpx;
+  color: #666;
+}
+
+.active .tab-text {
+  color: #52a565;
+  font-weight: 600;
+}

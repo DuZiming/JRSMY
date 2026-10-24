@@ -1,49 +1,50 @@
 <view class="page">
-  <!-- 筛选器 -->
-  <view class="filters">
-    <view class="filter-group">
-      <view
-        wx:for="{{sourceFilters}}"
-        wx:key="key"
-        class="chip {{filterSource === item.key ? 'on' : ''}}"
-        data-key="{{item.key}}"
-        bindtap="setSource"
-      >{{item.label}}</view>
+  <!-- 顶部：搜索 + 视图切换（固定） -->
+  <view class="topbar">
+    <view class="search-row">
+      <view class="search-box">
+        <text class="icon icon-search" />
+        <input
+          class="search-input"
+          value="{{keyword}}"
+          bindinput="onKeyword"
+          placeholder="搜索菜品"
+          placeholder-class="search-ph"
+          confirm-type="search"
+        />
+        <text wx:if="{{keyword}}" class="search-clear" bindtap="clearKeyword">×</text>
+      </view>
+      <view class="view-toggle" bindtap="switchView">
+        <text class="icon {{viewMode === 'card' ? 'icon-list' : 'icon-grid'}}" />
+      </view>
     </view>
-    <view class="filter-group">
-      <view
-        wx:for="{{typeFilters}}"
-        wx:key="key"
-        class="chip {{filterType === item.key ? 'on' : ''}}"
-        data-key="{{item.key}}"
-        bindtap="setType"
-      >{{item.label}}</view>
-    </view>
-    <view class="filter-group">
-      <view
-        wx:for="{{tagFilters}}"
-        wx:key="key"
-        class="chip {{filterTag === item.key ? 'on' : ''}}"
-        data-key="{{item.key}}"
-        bindtap="setTag"
-      >{{item.label}}</view>
+
+    <!-- 工具行：厨房 + 筛选（固定） -->
+    <view class="tool-row">
+      <view class="kitchen-btn" bindtap="pickKitchen">
+        <text>{{kitchenName}}</text>
+        <text class="kitchen-caret">▾</text>
+      </view>
+      <view class="filter-btn" bindtap="openDrawer">
+        <text class="icon icon-funnel" />
+        <text>筛选</text>
+      </view>
     </view>
   </view>
 
-  <!-- 视图切换 -->
-  <view class="toolbar">
+  <view class="list-head">
     <text class="count">{{dishes.length}} 道菜</text>
-    <view class="switch" bindtap="switchView">{{viewMode === 'card' ? '☰ 列表' : '▦ 卡片'}}</view>
+    <text wx:if="{{basketCount}}" class="picked-tip">已选 {{basketCount}} 份</text>
   </view>
 
   <!-- 空态 -->
   <view wx:if="{{!loading && !dishes.length}}" class="empty">
-    <text class="empty-icon">🍽️</text>
-    <text>厨房还是空的，先加一道菜吧</text>
-    <button class="empty-btn" type="primary" bindtap="addDish">＋ 添加菜品</button>
+    <text class="icon icon-camera empty-cam" />
+    <text>{{keyword || filterType || filterSource || filterTag ? '没有符合条件的菜' : '厨房还是空的，先加一道菜吧'}}</text>
+    <button wx:if="{{!keyword && !filterType && !filterSource && !filterTag}}" class="empty-btn" type="primary" bindtap="addDish">＋ 添加菜品</button>
   </view>
 
-  <!-- 卡片视图：一行两个（电商双列） -->
+  <!-- 卡片视图：一行两个，右上角 ＋ -->
   <view wx:if="{{viewMode === 'card'}}" class="cards">
     <view
       wx:for="{{dishes}}"
@@ -54,6 +55,7 @@
       bindtap="openDetail"
     >
       <image class="dish-card-img" src="{{item.photos[0]}}" mode="aspectFill" />
+      <view class="dish-add" data-id="{{item._id}}" catchtap="onAdd">＋</view>
       <view class="dish-card-body">
         <text class="dish-card-name">{{item.name}}</text>
         <view class="dish-card-row">
@@ -66,7 +68,7 @@
     </view>
   </view>
 
-  <!-- 列表视图：左图右文（电商列表） -->
+  <!-- 列表视图：左图右文，行尾 ＋ -->
   <view wx:else class="list">
     <view
       wx:for="{{dishes}}"
@@ -89,12 +91,82 @@
           <text wx:if="{{item.calories}}">{{item.calories}} kcal</text>
         </view>
       </view>
-      <text class="icon icon-chevron" />
+      <view class="row-add" data-id="{{item._id}}" catchtap="onAdd">＋</view>
     </view>
   </view>
 
+  <!-- 右下：加菜 -->
   <view class="fab" bindtap="addDish">
     <text class="icon icon-plus" />
   </view>
+
+  <!-- 左下：已选菜单 -->
+  <view class="fab basket {{basketCount ? '' : 'empty'}} {{basketPop ? 'pop' : ''}}" bindtap="openBasket">
+    <text class="icon icon-cart basket-icon {{basketCount ? '' : 'dim'}}" />
+    <view wx:if="{{basketCount}}" class="basket-badge">{{basketCount}}</view>
+  </view>
+
   <view class="tabbar-gap" />
+
+  <!-- 筛选抽屉 -->
+  <view class="mask {{drawerOpen ? 'show' : ''}}" bindtap="closeDrawer" />
+  <view class="drawer {{drawerOpen ? 'show' : ''}}">
+    <view class="drawer-body">
+      <scroll-view class="drawer-nav" scroll-y>
+        <view
+          wx:for="{{drawerGroups}}"
+          wx:key="key"
+          class="nav-item"
+          data-anchor="{{item.anchor}}"
+          bindtap="drawerJump"
+        >{{item.label}}</view>
+      </scroll-view>
+      <scroll-view class="drawer-opts" scroll-y scroll-into-view="{{drawerAnchor}}" scroll-with-animation>
+        <view wx:for="{{drawerGroups}}" wx:for-item="group" wx:key="key" id="{{group.anchor}}" class="opt-group">
+          <view class="opt-group-title">{{group.label}}</view>
+          <view class="opt-chips">
+            <view
+              wx:for="{{group.options}}"
+              wx:for-item="opt"
+              wx:key="key"
+              class="opt-chip {{drawerPending[group.key] === opt.key ? 'on' : ''}}"
+              data-group="{{group.key}}"
+              data-key="{{opt.key}}"
+              bindtap="drawerPick"
+            >{{opt.label}}</view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+    <view class="drawer-btns">
+      <button class="drawer-clear" bindtap="drawerClear">清空筛选</button>
+      <button class="drawer-ok" bindtap="drawerConfirm">确定</button>
+    </view>
+  </view>
+
+  <!-- 已选菜单弹窗（不满屏） -->
+  <view class="mask {{basketOpen ? 'show' : ''}}" bindtap="closeBasket" />
+  <view class="basket-sheet {{basketOpen ? 'show' : ''}}">
+    <view class="sheet-title">已选 {{basketCount}} 份</view>
+    <scroll-view class="sheet-list" scroll-y>
+      <view wx:for="{{basketItems}}" wx:key="_id" class="sheet-item">
+        <image class="sheet-img" src="{{item.photo}}" mode="aspectFill" />
+        <text class="sheet-name">{{item.name}}</text>
+        <view class="sheet-stepper">
+          <view class="step-s" data-index="{{index}}" bindtap="decQty">−</view>
+          <input
+            class="step-input"
+            type="number"
+            value="{{item.qty}}"
+            data-index="{{index}}"
+            bindblur="onQtyInput"
+          />
+          <view class="step-s" data-index="{{index}}" bindtap="incQty">＋</view>
+        </view>
+      </view>
+    </scroll-view>
+    <button class="btn-cta sheet-ok" bindtap="confirmBasket" disabled="{{!basketCount}}" loading="{{submitting}}">
+      确定加入今日菜单
+    </button>
+  </view>
 </view>

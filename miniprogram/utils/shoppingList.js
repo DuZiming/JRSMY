@@ -22,34 +22,45 @@ function mergeAmount(a, b) {
   return `${a}/${b}`;
 }
 
-// 从各菜 ingredients 聚合买菜清单：同名合并、缺 name 的项过滤、按首次出现排序
+// 份数换算：可数值化的用量 × 份数；不可数值化或份数为 1 保持原文
+function multiplyAmount(amount, qty) {
+  if (!qty || qty === 1) return amount || '';
+  const pa = parseAmount(amount);
+  if (!pa) return amount || '';
+  const scaled = pa.num * qty;
+  return `${Number.isInteger(scaled) ? scaled : +scaled.toFixed(2)}${pa.unit}`;
+}
+
+// 从各菜 ingredients 聚合买菜清单：同名合并、缺 name 的项过滤、按首次出现排序、用量按份数(_qty)翻倍
 function aggregateShoppingList(dishes) {
   const order = [];
   const byName = {};
   (dishes || []).forEach((dish) => {
+    const qty = dish._qty || 1;
     (dish.ingredients || []).forEach((ing) => {
       if (!ing || !ing.name) return;
+      const amount = multiplyAmount(ing.amount, qty);
       if (!byName[ing.name]) {
-        byName[ing.name] = { name: ing.name, amount: ing.amount || '', bought: false };
+        byName[ing.name] = { name: ing.name, amount, bought: false };
         order.push(ing.name);
       } else {
-        byName[ing.name].amount = mergeAmount(byName[ing.name].amount, ing.amount || '');
+        byName[ing.name].amount = mergeAmount(byName[ing.name].amount, amount);
       }
     });
   });
   return order.map((name) => byName[name]);
 }
 
-// 热量合计：非数字（null/undefined）按 0
+// 热量合计：非数字（null/undefined）按 0，份数（qty）参与合计
 function sumCalories(items) {
   return (items || []).reduce(
-    (sum, it) => sum + (typeof it.calories === 'number' ? it.calories : 0),
+    (sum, it) => sum + (typeof it.calories === 'number' ? it.calories : 0) * (it.qty || 1),
     0
   );
 }
 
-// 构建菜单文档：items 存快照（dish_id/name/封面photo/type/calories），
-// 菜品日后被删/改，历史菜单不烂
+// 构建菜单文档：items 存快照（dish_id/name/封面photo/type/calories/qty份数），
+// 菜品日后被删/改，历史菜单不烂；qty 用于手选菜单（默认 1）
 function buildMenuDoc({ picks, requirements, mode }) {
   const items = (picks || []).map((p) => ({
     dish_id: p._id,
@@ -57,6 +68,7 @@ function buildMenuDoc({ picks, requirements, mode }) {
     photo: (p.photos || [])[0] || '',
     type: p.type,
     calories: typeof p.calories === 'number' ? p.calories : null,
+    qty: p._qty || 1,
   }));
 
   return {

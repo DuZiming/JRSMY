@@ -32,7 +32,7 @@
       bindtap="openDetail"
     >
       <view class="menu-head">
-        <text class="menu-mode">{{menu.mode === 'wheel' ? '转盘' : '随机'}}</text>
+        <text class="menu-mode">{{menu.mode === 'wheel' ? '转盘' : menu.mode === 'manual' ? '手选' : '随机'}}</text>
         <text class="menu-info">{{menu.items.length}} 道菜{{menu.total_calories ? ' · ' + menu.total_calories + ' kcal' : ''}}</text>
         <text class="icon icon-chevron" />
       </view>

@@ -51,6 +51,50 @@ describe('sumCalories', () => {
   });
 });
 
+describe('份数（_qty）支持 · 手选菜单', () => {
+  const dish = (id, qty, ing) => ({
+    _id: id, name: id, type: 'meat', calories: 100,
+    photos: [], ingredients: [ing], _qty: qty,
+  });
+
+  test('可数值化用量按份数翻倍', () => {
+    const list = aggregateShoppingList([dish('m1', 2, { name: '盐', amount: '5克' })]);
+    expect(list).toEqual([{ name: '盐', amount: '10克', bought: false }]);
+  });
+
+  test('不可数值化用量保持原文', () => {
+    const list = aggregateShoppingList([dish('m1', 3, { name: '蒜', amount: '适量' })]);
+    expect(list[0].amount).toBe('适量');
+  });
+
+  test('同名材料跨菜合并时各按份数贡献', () => {
+    const list = aggregateShoppingList([
+      dish('m1', 1, { name: '盐', amount: '3克' }),
+      dish('m2', 2, { name: '盐', amount: '3克' }),
+    ]);
+    expect(list[0].amount).toBe('9克');
+  });
+
+  test('buildMenuDoc 手选模式：items 带 qty、热量按份数合计', () => {
+    const picks = [
+      {
+        _id: 'm1', name: '红烧肉', type: 'meat', calories: 600,
+        photos: ['cloud://p1'], ingredients: [{ name: '五花肉', amount: '500克' }], _qty: 2,
+      },
+      {
+        _id: 'v1', name: '清炒时蔬', type: 'veg', calories: 120,
+        photos: [], ingredients: [],
+      },
+    ];
+    const doc = buildMenuDoc({ picks, requirements: {}, mode: 'manual' });
+    expect(doc.mode).toBe('manual');
+    expect(doc.items[0].qty).toBe(2);
+    expect(doc.items[1].qty).toBe(1);
+    expect(doc.total_calories).toBe(600 * 2 + 120);
+    expect(doc.shopping_list).toEqual([{ name: '五花肉', amount: '1000克', bought: false }]);
+  });
+});
+
 describe('buildMenuDoc', () => {
   const makePicks = () => [
     {
@@ -78,8 +122,8 @@ describe('buildMenuDoc', () => {
       mode: 'random',
     });
     expect(doc.items).toEqual([
-      { dish_id: 'm1', name: '红烧肉', photo: 'cloud://p1', type: 'meat', calories: 600 },
-      { dish_id: 'v1', name: '清炒时蔬', photo: '', type: 'veg', calories: 120 },
+      { dish_id: 'm1', name: '红烧肉', photo: 'cloud://p1', type: 'meat', calories: 600, qty: 1 },
+      { dish_id: 'v1', name: '清炒时蔬', photo: '', type: 'veg', calories: 120, qty: 1 },
     ]);
   });
 

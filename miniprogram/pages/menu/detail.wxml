@@ -2,7 +2,7 @@
   <view class="section">
     <view class="head">
       <text class="date">{{menu.date}}</text>
-      <text class="mode">{{menu.mode === 'wheel' ? '🎡 转盘' : '🎲 随机'}} · {{menu.items.length}} 道菜</text>
+      <text class="mode">{{menu.mode === 'wheel' ? '转盘' : menu.mode === 'manual' ? '手选' : '随机'}} · {{menu.items.length}} 道菜</text>
     </view>
     <view class="dishes">
       <view wx:for="{{menu.items}}" wx:key="dish_id" class="dish-row">

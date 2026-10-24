@@ -1,3 +1,34 @@
 <view class="page">
-  <text>今日菜单（搭建中）</text>
+  <view class="hero" bindtap="create">
+    <text class="hero-title">今天食咩野？</text>
+    <text class="hero-sub">点这里，随机一套或转个盘 🎲🎡</text>
+  </view>
+
+  <view wx:if="{{!loading && !groups.length}}" class="empty">
+    <text class="empty-icon">🍳</text>
+    <text>还没有菜单记录，来生成第一份吧</text>
+  </view>
+
+  <view wx:for="{{groups}}" wx:key="date" class="group">
+    <view class="date-bar">
+      <text class="date-label">{{item.label}}</text>
+      <text class="date-raw">{{item.date}}</text>
+    </view>
+    <view
+      wx:for="{{item.menus}}"
+      wx:for-item="menu"
+      wx:key="_id"
+      class="menu-card"
+      data-id="{{menu._id}}"
+      bindtap="openDetail"
+    >
+      <view class="menu-head">
+        <text class="menu-mode">{{menu.mode === 'wheel' ? '🎡 转盘' : '🎲 随机'}}</text>
+        <text class="menu-info">{{menu.items.length}} 道菜{{menu.total_calories ? ' · ' + menu.total_calories + ' kcal' : ''}}</text>
+      </view>
+      <view class="menu-dishes">
+        <text wx:for="{{menu.items}}" wx:for-item="dish" wx:key="dish_id" class="menu-dish">{{dish.name}}</text>
+      </view>
+    </view>
+  </view>
 </view>

@@ -1,3 +1,111 @@
-.page {
+.section {
+  background: #fff;
+  border-radius: 16rpx;
   padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.date {
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.mode {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.dish-row {
+  display: flex;
+  align-items: center;
+  padding: 14rpx 0;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.dish-row:last-child {
+  border-bottom: none;
+}
+
+.dish-img {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 12rpx;
+  flex-shrink: 0;
+}
+
+.dish-body {
+  margin-left: 20rpx;
+}
+
+.dish-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  display: block;
+}
+
+.dish-sub {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.total {
+  margin-top: 20rpx;
+  text-align: right;
+  color: #d35400;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.section-title {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 12rpx;
+}
+
+.hint {
+  font-size: 24rpx;
+  color: #bbb;
+}
+
+.shop-item {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid #f2f2f2;
+  font-size: 30rpx;
+}
+
+.shop-item:last-child {
+  border-bottom: none;
+}
+
+.shop-item.done .shop-name {
+  text-decoration: line-through;
+  color: #bbb;
+}
+
+.shop-item.done .shop-amount {
+  color: #ddd;
+}
+
+.check {
+  font-size: 36rpx;
+  color: #52a565;
+}
+
+.shop-name {
+  flex: 1;
+}
+
+.shop-amount {
+  color: #999;
+  font-size: 26rpx;
 }

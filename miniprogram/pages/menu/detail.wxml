@@ -1,3 +1,34 @@
-<view class="page">
-  <text>菜单详情（搭建中）</text>
+<view wx:if="{{menu}}" class="page">
+  <view class="section">
+    <view class="head">
+      <text class="date">{{menu.date}}</text>
+      <text class="mode">{{menu.mode === 'wheel' ? '🎡 转盘' : '🎲 随机'}} · {{menu.items.length}} 道菜</text>
+    </view>
+    <view class="dishes">
+      <view wx:for="{{menu.items}}" wx:key="dish_id" class="dish-row">
+        <image class="dish-img" src="{{item.photo}}" mode="aspectFill" />
+        <view class="dish-body">
+          <text class="dish-name">{{item.name}}</text>
+          <text class="dish-sub">{{typeZh[item.type]}}{{item.calories ? ' · ' + item.calories + ' kcal' : ''}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="total">合计 ≈ {{menu.total_calories || 0}} kcal</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">🛒 买菜清单（勾掉已买）</view>
+    <view wx:if="{{!menu.shopping_list.length}}" class="hint">这些菜没录材料，去菜品详情补上材料，下次就有清单啦</view>
+    <view
+      wx:for="{{menu.shopping_list}}"
+      wx:key="name"
+      class="shop-item {{item.bought ? 'done' : ''}}"
+      data-index="{{index}}"
+      bindtap="toggle"
+    >
+      <text class="check">{{item.bought ? '☑' : '☐'}}</text>
+      <text class="shop-name">{{item.name}}</text>
+      <text class="shop-amount">{{item.amount || '适量'}}</text>
+    </view>
+  </view>
 </view>

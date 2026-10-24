@@ -1,3 +1,90 @@
-.page {
+.hero {
+  background: linear-gradient(135deg, #52a565, #3d8a50);
+  border-radius: 20rpx;
+  padding: 48rpx 32rpx;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.hero-title {
+  font-size: 44rpx;
+  font-weight: 700;
+}
+
+.hero-sub {
+  font-size: 26rpx;
+  opacity: 0.9;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+  padding: 100rpx 0;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+}
+
+.group {
+  margin-top: 32rpx;
+}
+
+.date-bar {
+  display: flex;
+  align-items: baseline;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.date-label {
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.date-raw {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.menu-card {
+  background: #fff;
+  border-radius: 16rpx;
   padding: 24rpx;
+  margin-bottom: 16rpx;
+}
+
+.menu-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+}
+
+.menu-mode {
+  font-size: 26rpx;
+}
+
+.menu-info {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.menu-dishes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.menu-dish {
+  background: #f0f7f2;
+  color: #3d7a4c;
+  font-size: 26rpx;
+  border-radius: 8rpx;
+  padding: 6rpx 16rpx;
 }

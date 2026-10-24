@@ -1,6 +1,7 @@
-const { listDishes } = require('../../services/dishes');
+const { listDishes, updateDish } = require('../../services/dishes');
 const { addMenu } = require('../../services/menus');
 const { buildMenuDoc } = require('../../utils/shoppingList');
+const { computeMove } = require('../../utils/orderHelper');
 const {
   TYPE_LABELS,
   TYPE_ORDER,
@@ -258,6 +259,27 @@ Page({
     } finally {
       this.setData({ submitting: false });
     }
+  },
+
+  // 长按排序：置顶/上移/下移（作用于当前展示顺序）
+  onDishLongPress(e) {
+    const { id } = e.currentTarget.dataset;
+    const index = this.data.dishes.findIndex((d) => d._id === id);
+    if (index < 0) return;
+    wx.showActionSheet({
+      itemList: ['置顶', '上移一位', '下移一位'],
+      success: async (res) => {
+        const dir = ['top', 'up', 'down'][res.tapIndex];
+        const changes = computeMove(this.data.dishes, index, dir);
+        if (!changes.length) return;
+        try {
+          await Promise.all(changes.map((ch) => updateDish(ch._id, { sort: ch.sort })));
+          this.load();
+        } catch (err) {
+          wx.showToast({ title: '排序失败', icon: 'none' });
+        }
+      },
+    });
   },
 
   addDish() {

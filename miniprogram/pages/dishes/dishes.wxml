@@ -32,11 +32,6 @@
     </view>
   </view>
 
-  <view class="list-head">
-    <text class="count">{{dishes.length}} 道菜</text>
-    <text wx:if="{{basketCount}}" class="picked-tip">已选 {{basketCount}} 份</text>
-  </view>
-
   <!-- 空态 -->
   <view wx:if="{{!loading && !dishes.length}}" class="empty">
     <text class="icon icon-camera empty-cam" />
@@ -53,6 +48,7 @@
       hover-class="card-pressed"
       data-id="{{item._id}}"
       bindtap="openDetail"
+      bindlongpress="onDishLongPress"
     >
       <image class="dish-card-img" src="{{item.photos[0]}}" mode="aspectFill" />
       <view class="dish-add" data-id="{{item._id}}" catchtap="onAdd">＋</view>
@@ -77,6 +73,7 @@
       hover-class="item-pressed"
       data-id="{{item._id}}"
       bindtap="openDetail"
+      bindlongpress="onDishLongPress"
     >
       <image class="list-img" src="{{item.photos[0]}}" mode="aspectFill" />
       <view class="list-body">

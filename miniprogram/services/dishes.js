@@ -57,7 +57,7 @@ async function listDishes(filter = {}) {
   if (filter.tag) where.tags = cmd.in([filter.tag]);
   let query = db().collection('dishes');
   if (Object.keys(where).length) query = query.where(where);
-  const res = await query.orderBy('created_at', 'desc').limit(100).get();
+  const res = await query.orderBy('sort', 'desc').orderBy('created_at', 'desc').limit(100).get();
   return res.data;
 }
 

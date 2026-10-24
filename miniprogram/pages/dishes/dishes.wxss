@@ -111,24 +111,6 @@
   height: 28rpx;
 }
 
-.list-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20rpx 8rpx 16rpx;
-}
-
-.count {
-  color: var(--ink-3);
-  font-size: 26rpx;
-}
-
-.picked-tip {
-  color: var(--pumpkin-deep);
-  font-size: 24rpx;
-  font-weight: 600;
-}
-
 /* ===== 空态 ===== */
 .empty {
   display: flex;

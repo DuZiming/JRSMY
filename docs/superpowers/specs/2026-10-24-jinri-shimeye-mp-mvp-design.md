@@ -64,7 +64,7 @@
 | `spicy_level` | number | 辣度 0-3（可空） |
 | `practice` | string | 做法备注（可空） |
 | `ai_meta` | object | `{ model, at }` 识别来源标记（可空） |
-| `kitchen_id` | string | **预留二期**，MVP 固定填 `k_<openid>` |
+| `kitchen_id` | string | **预留二期**，MVP 不写入（客户端取不到 openid；文档自动带 `_openid` 即归属，二期一条脚本回填 `k_<openid>`） |
 | `is_public` | boolean | **预留二期**美食广场，默认 false |
 | `created_at` / `updated_at` | Date | |
 
@@ -78,7 +78,7 @@
 | `mode` | enum | `random` 随机整单 / `wheel` 大转盘 |
 | `total_calories` | number | 确认时算好 |
 | `shopping_list` | `[{name, amount, bought}]` | 确认菜单时从各菜 `ingredients` 聚合（同名材料合并数量），勾选改 `bought` |
-| `creator_openid` | string | **预留二期**多人厨房，MVP 恒等于本人 |
+| `creator_openid` | string | **预留二期**多人厨房，MVP 不写入（同 kitchen_id，`_openid` 即归属） |
 | `created_at` | Date | |
 
 ### 4.3 `users` 用户
@@ -181,7 +181,7 @@ chooseMedia 拍照/选图(≤9张, compressed)
 
 | 字段/能力 | 用途 |
 |---|---|
-| `dishes.kitchen_id`（填 `k_<openid>`） | 多厨房/协作，免数据迁移 |
+| `dishes.kitchen_id`（二期脚本回填 `k_<openid>`） | 多厨房/协作，免手工迁移 |
 | `dishes.is_public` | 美食广场发布 |
 | `menus.creator_openid` | 多人厨房按头像区分 |
 | `users.cabbage` | 大白菜经济 |

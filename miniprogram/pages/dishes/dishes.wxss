@@ -308,7 +308,7 @@
   position: fixed;
   z-index: 10;
   right: 40rpx;
-  bottom: calc(270rpx + env(safe-area-inset-bottom));
+  bottom: calc(150rpx + env(safe-area-inset-bottom));
   width: 100rpx;
   height: 100rpx;
   border-radius: 50%;
@@ -376,8 +376,8 @@
   position: fixed;
   left: 20rpx;
   right: 20rpx;
-  bottom: calc(240rpx + env(safe-area-inset-bottom));
-  height: 56vh;
+  bottom: calc(140rpx + env(safe-area-inset-bottom));
+  height: 58vh;
   background: #fff;
   border-radius: 32rpx;
   box-shadow: 0 -8rpx 48rpx rgba(47, 42, 36, 0.22);
@@ -495,7 +495,7 @@
   position: fixed;
   left: 24rpx;
   right: 24rpx;
-  bottom: calc(240rpx + env(safe-area-inset-bottom));
+  bottom: calc(140rpx + env(safe-area-inset-bottom));
   max-height: 62vh;
   background: #fff;
   border-radius: 28rpx;

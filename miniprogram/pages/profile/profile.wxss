@@ -1,3 +1,160 @@
-.page {
+.section {
+  background: #fff;
+  border-radius: 16rpx;
   padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.section-title.gap {
+  margin-top: 32rpx;
+}
+
+.profile-row {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.avatar-btn {
+  padding: 0;
+  margin: 0;
+  background: none;
+  line-height: 1;
+  border-radius: 50%;
+}
+
+.avatar-btn::after {
+  border: none;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+}
+
+.avatar-empty {
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56rpx;
+}
+
+.nick-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.label {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.nick-input {
+  font-size: 34rpx;
+  font-weight: 600;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  margin-top: 16rpx;
+}
+
+.stepper.small {
+  margin-top: 0;
+  gap: 12rpx;
+}
+
+.step-btn {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 12rpx;
+  background: #f0f7f2;
+  color: #3d7a4c;
+  font-size: 36rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepper.small .step-btn {
+  width: 52rpx;
+  height: 52rpx;
+  font-size: 30rpx;
+}
+
+.step-num {
+  min-width: 80rpx;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.comp-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+  margin-top: 16rpx;
+}
+
+.comp-item {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.comp-label {
+  font-size: 28rpx;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-top: 16rpx;
+}
+
+.hint {
+  font-size: 24rpx;
+  color: #bbb;
+}
+
+.tag {
+  padding: 8rpx 28rpx;
+  border-radius: 999rpx;
+  border: 1rpx solid #ddd;
+  color: #666;
+  font-size: 26rpx;
+}
+
+.tag.on {
+  background: #fdecea;
+  border-color: #c0392b;
+  color: #c0392b;
+}
+
+.cabbage {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 28rpx;
+}
+
+.cabbage-num {
+  color: #d35400;
+}
+
+.save-btn {
+  background: #52a565;
+  margin-top: 8rpx;
 }

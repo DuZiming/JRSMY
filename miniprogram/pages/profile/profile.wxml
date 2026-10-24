@@ -1,3 +1,60 @@
 <view class="page">
-  <text>我的（搭建中）</text>
+  <!-- 头像昵称 -->
+  <view class="section profile-row">
+    <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <image wx:if="{{avatar}}" class="avatar" src="{{avatar}}" mode="aspectFill" />
+      <view wx:else class="avatar avatar-empty">🙂</view>
+    </button>
+    <view class="nick-wrap">
+      <text class="label">昵称</text>
+      <input type="nickname" class="nick-input" value="{{nickname}}" bindinput="onNickname" placeholder="点这里设置昵称" />
+    </view>
+  </view>
+
+  <!-- 默认偏好 -->
+  <view class="section">
+    <view class="section-title">默认用餐人数</view>
+    <view class="stepper">
+      <view class="step-btn" bindtap="decPeople">－</view>
+      <text class="step-num">{{people}} 人</text>
+      <view class="step-btn" bindtap="incPeople">＋</view>
+    </view>
+
+    <view class="section-title gap">默认搭配（各来几道）</view>
+    <view class="comp-row">
+      <view wx:for="{{compLabels}}" wx:key="key" class="comp-item">
+        <text class="comp-label">{{item.label}}</text>
+        <view class="stepper small">
+          <view class="step-btn" data-key="{{item.key}}" bindtap="decType">－</view>
+          <text class="step-num">{{item.count}}</text>
+          <view class="step-btn" data-key="{{item.key}}" bindtap="incType">＋</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section-title gap">常驻忌口</view>
+    <view class="tags">
+      <text wx:if="{{!avoid.length}}" class="hint">不忌口的话，推荐就不做排除</text>
+      <view
+        wx:for="{{defaultTags}}"
+        wx:key="*this"
+        class="tag {{avoid.indexOf(item) >= 0 ? 'on' : ''}}"
+        data-tag="{{item}}"
+        bindtap="toggleAvoid"
+      >{{item}}</view>
+      <view
+        class="tag {{avoid.indexOf('辣') >= 0 ? 'on' : ''}}"
+        data-tag="辣"
+        bindtap="toggleAvoid"
+      >辣</view>
+    </view>
+  </view>
+
+  <!-- 大白菜（预留） -->
+  <view class="section cabbage">
+    <text>🥬 我的大白菜</text>
+    <text class="cabbage-num">{{user.cabbage || 0}}（即将上线）</text>
+  </view>
+
+  <button class="save-btn" type="primary" bindtap="saveAll" loading="{{saving}}">保存</button>
 </view>

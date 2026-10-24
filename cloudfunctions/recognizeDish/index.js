@@ -9,9 +9,9 @@ const { checkQuota } = require('./quota');
 const { parseAiJson } = require('./parse');
 
 const ENV_ID = 'absent-jellyfish-d7ejuaa974b8533';
-// 预检后确定：cloudbase 组的混元视觉模型（目录确认多模态理解，激励计划代金券覆盖混元 token）
+// 预检后确定：cloudbase 组，用户已在控制台启用 glm-5.3-flash（多模态理解，目录最便宜档 ¥1.28/M in）
 const AI_PROVIDER = 'cloudbase';
-const AI_MODEL = 'hunyuan-t1-vision-20250916';
+const AI_MODEL = 'glm-5.3-flash';
 const AI_DAILY_LIMIT = 20;
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // base64 建议单张 ≤5MB
 

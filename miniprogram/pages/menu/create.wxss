@@ -1,3 +1,289 @@
-.page {
+.section {
+  background: #fff;
+  border-radius: 16rpx;
   padding: 24rpx;
+}
+
+.row-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-title {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.section-title.gap {
+  margin-top: 28rpx;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.stepper.small {
+  gap: 10rpx;
+}
+
+.step-btn {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 10rpx;
+  background: #f0f7f2;
+  color: #3d7a4c;
+  font-size: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-num {
+  min-width: 64rpx;
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.comp-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+  margin-top: 16rpx;
+}
+
+.comp-item {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.comp-label {
+  font-size: 26rpx;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+  margin-top: 14rpx;
+}
+
+.hint {
+  font-size: 24rpx;
+  color: #bbb;
+}
+
+.tag {
+  padding: 6rpx 24rpx;
+  border-radius: 999rpx;
+  border: 1rpx solid #ddd;
+  color: #666;
+  font-size: 24rpx;
+}
+
+.tag.on {
+  background: #fdecea;
+  border-color: #c0392b;
+  color: #c0392b;
+}
+
+.mode-switch {
+  display: flex;
+  gap: 16rpx;
+  margin: 24rpx 0;
+}
+
+.mode {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  background: #fff;
+  border-radius: 16rpx;
+  color: #666;
+  font-size: 30rpx;
+}
+
+.mode.on {
+  background: #52a565;
+  color: #fff;
+  font-weight: 600;
+}
+
+.big-btn {
+  margin-top: 24rpx;
+  background: #52a565;
+  color: #fff;
+  font-size: 32rpx;
+  border-radius: 14rpx;
+}
+
+.big-btn.again {
+  background: #fff;
+  color: #52a565;
+  border: 1rpx solid #52a565;
+}
+
+.big-btn.confirm {
+  background: #e8833a;
+}
+
+.warn-tip {
+  background: #fff7e6;
+  color: #b06f0a;
+  border-radius: 12rpx;
+  padding: 16rpx 20rpx;
+  font-size: 24rpx;
+  margin-bottom: 16rpx;
+}
+
+.menu-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.menu-card {
+  width: calc((100% - 16rpx) / 2);
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.menu-img {
+  width: 100%;
+  height: 200rpx;
+}
+
+.menu-body {
+  padding: 14rpx 18rpx;
+}
+
+.menu-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  display: block;
+}
+
+.menu-sub {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.swipe-tip {
+  text-align: center;
+  color: #bbb;
+  font-size: 24rpx;
+  margin: 20rpx 0 8rpx;
+}
+
+.wheel-start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+  padding: 60rpx 0;
+}
+
+.wheel-title {
+  text-align: center;
+  color: #666;
+  margin: 12rpx 0 24rpx;
+  font-size: 28rpx;
+}
+
+.wheel-wrap {
+  position: relative;
+  width: 640rpx;
+  height: 640rpx;
+  margin: 0 auto;
+}
+
+.pointer {
+  position: absolute;
+  top: -6rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  color: #e8833a;
+  font-size: 40rpx;
+}
+
+.wheel {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #fff;
+  border: 8rpx solid #52a565;
+  transition: transform 2.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.wheel-item {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 160rpx;
+  margin-left: -80rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  margin-top: -28rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #444;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.wheel-item.hit {
+  color: #e8833a;
+  font-weight: 700;
+}
+
+.wheel-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background: #52a565;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 28rpx;
+  padding: 12rpx;
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+.wheel-btns {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 32rpx;
+}
+
+.wheel-btns .big-btn {
+  flex: 1;
+  margin-top: 0;
+}
+
+.locked-bar {
+  margin-top: 24rpx;
+  background: #e8f4ec;
+  border-radius: 12rpx;
+  padding: 16rpx 20rpx;
+  font-size: 26rpx;
+  color: #3d7a4c;
+}
+
+.locked-name {
+  margin-right: 16rpx;
+  font-weight: 600;
 }

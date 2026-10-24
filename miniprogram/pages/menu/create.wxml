@@ -1,3 +1,105 @@
-<view class="page">
-  <text>新建菜单（搭建中）</text>
+<view class="page" bindtouchstart="onTouchStart" bindtouchend="onTouchEnd">
+  <!-- 需求 -->
+  <view class="section">
+    <view class="row-title">
+      <text class="section-title">几个人吃</text>
+      <view class="stepper">
+        <view class="step-btn" bindtap="decPeople">－</view>
+        <text class="step-num">{{people}} 人</text>
+        <view class="step-btn" bindtap="incPeople">＋</view>
+      </view>
+    </view>
+
+    <view class="section-title gap">搭配（各来几道）</view>
+    <view class="comp-row">
+      <view wx:for="{{compItems}}" wx:key="key" class="comp-item">
+        <text class="comp-label">{{item.label}}</text>
+        <view class="stepper small">
+          <view class="step-btn" data-key="{{item.key}}" bindtap="decType">－</view>
+          <text class="step-num">{{item.count}}</text>
+          <view class="step-btn" data-key="{{item.key}}" bindtap="incType">＋</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section-title gap">忌口 / 排除</view>
+    <view class="tags">
+      <text wx:if="{{!avoid.length}}" class="hint">不选就不排除</text>
+      <view
+        wx:for="{{defaultTags}}"
+        wx:key="*this"
+        class="tag {{avoid.indexOf(item) >= 0 ? 'on' : ''}}"
+        data-tag="{{item}}"
+        bindtap="toggleAvoid"
+      >{{item}}</view>
+      <view class="tag {{avoid.indexOf('辣') >= 0 ? 'on' : ''}}" data-tag="辣" bindtap="toggleAvoid">辣</view>
+    </view>
+  </view>
+
+  <!-- 模式切换 -->
+  <view class="mode-switch">
+    <view class="mode {{mode === 'random' ? 'on' : ''}}" data-mode="random" bindtap="setMode">🎲 随机整单</view>
+    <view class="mode {{mode === 'wheel' ? 'on' : ''}}" data-mode="wheel" bindtap="setMode">🎡 大转盘</view>
+  </view>
+
+  <!-- 随机整单 -->
+  <block wx:if="{{mode === 'random'}}">
+    <button wx:if="{{!picks.length}}" class="big-btn" type="primary" bindtap="generate">生 成 菜 单</button>
+    <block wx:else>
+      <view wx:if="{{skippedTypes.length}}" class="warn-tip">
+        ⚠️ 厨房里还没有{{skippedTypes.length}}类的菜，这几道先空着——去加菜就能补上
+      </view>
+      <view class="menu-cards">
+        <view wx:for="{{picks}}" wx:key="_id" class="menu-card">
+          <image class="menu-img" src="{{item.photos[0]}}" mode="aspectFill" />
+          <view class="menu-body">
+            <text class="menu-name">{{item.name}}</text>
+            <text class="menu-sub">{{item.type === 'meat' ? '荤' : item.type === 'veg' ? '素' : item.type === 'staple' ? '主食' : item.type === 'soup' ? '汤' : '饮'}}{{item.calories ? ' · ' + item.calories + 'kcal' : ''}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="swipe-tip">👈 左滑换一批</view>
+      <button class="big-btn confirm" bindtap="confirm">就吃这套</button>
+    </block>
+  </block>
+
+  <!-- 大转盘 -->
+  <block wx:if="{{mode === 'wheel'}}">
+    <view wx:if="{{wheelIndex === -1}}" class="wheel-start">
+      <button class="big-btn" type="primary" bindtap="startWheel">开始转盘</button>
+      <text class="hint">按搭配里的类型一个个转：先荤菜 → 素菜 → …</text>
+    </view>
+
+    <block wx:else>
+      <view class="wheel-title">第 {{wheelIndex + 1}} / {{wheelTypes.length}} 类</view>
+      <view class="wheel-wrap">
+        <view class="pointer">▼</view>
+        <view class="wheel" style="transform: rotate({{wheelRotation}}deg);">
+          <view
+            wx:for="{{wheelPool}}"
+            wx:key="_id"
+            class="wheel-item {{wheelPick && wheelPick._id === item._id ? 'hit' : ''}}"
+            style="transform: rotate({{360 / wheelPool.length * index}}deg) translateY(-260rpx)"
+          >
+            <text>{{item.name}}</text>
+          </view>
+        </view>
+        <view class="wheel-center">{{wheelPick ? wheelPick.name : '转！'}}</view>
+      </view>
+
+      <view class="wheel-btns">
+        <button wx:if="{{!wheelPick}}" class="big-btn spin" type="primary" bindtap="spin" disabled="{{wheelSpinning}}">
+          {{wheelSpinning ? '转动中…' : '转 一 次'}}
+        </button>
+        <block wx:else>
+          <button class="big-btn again" bindtap="spin" disabled="{{wheelSpinning}}">🔄 重转</button>
+          <button class="big-btn confirm" type="primary" bindtap="lockPick">就它了</button>
+        </block>
+      </view>
+
+      <view wx:if="{{wheelLocked.length}}" class="locked-bar">
+        已定：<text wx:for="{{wheelLocked}}" wx:key="_id" class="locked-name">{{item.name}}</text>
+      </view>
+    </block>
+  </block>
 </view>

@@ -71,6 +71,18 @@ Page({
     }
   },
 
+  // 下滑隐藏工具行、上滑出现
+  onPageScroll(e) {
+    const y = e.scrollTop;
+    const dy = y - (this._lastY || 0);
+    if (dy > 6 && y > 80 && !this.data.toolHidden) {
+      this.setData({ toolHidden: true });
+    } else if (dy < -6 && this.data.toolHidden) {
+      this.setData({ toolHidden: false });
+    }
+    this._lastY = y;
+  },
+
   // ===== 搜索 + 筛选（客户端叠加） =====
   onKeyword(e) {
     this.setData({ keyword: e.detail.value }, () => this.applyFilters());
@@ -129,6 +141,7 @@ Page({
   },
 
   openDrawer() {
+    wx.hideTabBar({ animation: false, fail: () => {} });
     this.setData({
       drawerOpen: true,
       drawerPending: {
@@ -139,6 +152,7 @@ Page({
     });
   },
   closeDrawer() {
+    wx.showTabBar({ animation: false, fail: () => {} });
     this.setData({ drawerOpen: false }); // 遮罩/关闭 = 取消，不生效
   },
   drawerPick(e) {
@@ -149,6 +163,7 @@ Page({
     this.setData({ drawerPending: { source: '', type: '', tag: '' } });
   },
   drawerConfirm() {
+    wx.showTabBar({ animation: false, fail: () => {} });
     const p = this.data.drawerPending;
     this.setData({
       filterSource: p.source,
@@ -192,9 +207,11 @@ Page({
 
   openBasket() {
     if (!this.data.basketCount) return;
+    wx.hideTabBar({ animation: false, fail: () => {} });
     this.setData({ basketOpen: true });
   },
   closeBasket() {
+    wx.showTabBar({ animation: false, fail: () => {} });
     this.setData({ basketOpen: false });
   },
 
@@ -210,7 +227,10 @@ Page({
     items[index].qty -= 1;
     const left = items[index].qty <= 0 ? items.filter((_, i) => i !== index) : items;
     this.setData({ basketItems: left, basketCount: this.countBasket(left) });
-    if (!left.length) this.setData({ basketOpen: false });
+    if (!left.length) {
+      wx.showTabBar({ animation: false, fail: () => {} });
+      this.setData({ basketOpen: false });
+    }
   },
   onQtyInput(e) {
     const { index } = e.currentTarget.dataset;
@@ -229,6 +249,7 @@ Page({
       const picks = this.data.basketItems.map((it) => ({ ...it, _qty: it.qty }));
       const doc = buildMenuDoc({ picks, requirements: {}, mode: 'manual' });
       const id = await addMenu(doc);
+      wx.showTabBar({ animation: false, fail: () => {} });
       this.setData({ basketItems: [], basketCount: 0, basketOpen: false });
       wx.showToast({ title: '已加入今日菜单', icon: 'success' });
       setTimeout(() => wx.navigateTo({ url: `/pages/menu/detail?id=${id}` }), 500);

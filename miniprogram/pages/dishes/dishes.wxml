@@ -19,8 +19,8 @@
       </view>
     </view>
 
-    <!-- 工具行：厨房 + 筛选（固定） -->
-    <view class="tool-row">
+    <!-- 工具行：厨房 + 筛选（下滑隐藏、上滑出现） -->
+    <view class="tool-row {{toolHidden ? 'hide' : ''}}">
       <view class="kitchen-btn" bindtap="pickKitchen">
         <text>{{kitchenName}}</text>
         <text class="kitchen-caret">▾</text>
@@ -101,8 +101,8 @@
   </view>
 
   <!-- 左下：已选菜单 -->
-  <view class="fab basket {{basketCount ? '' : 'empty'}} {{basketPop ? 'pop' : ''}}" bindtap="openBasket">
-    <text class="icon icon-cart basket-icon {{basketCount ? '' : 'dim'}}" />
+  <view class="fab fab-left {{basketPop ? 'pop' : ''}}" bindtap="openBasket">
+    <text class="icon icon-cart-w basket-icon" />
     <view wx:if="{{basketCount}}" class="basket-badge">{{basketCount}}</view>
   </view>
 

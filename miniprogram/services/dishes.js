@@ -1,5 +1,5 @@
 // 菜品数据访问层：封装 wx.cloud 数据库与云存储操作
-const { TYPE_LABELS, SOURCE_LABELS, TYPE_ORDER, SOURCE } = require('../utils/constants');
+
 
 function db() {
   return wx.cloud.database();
@@ -38,11 +38,15 @@ async function uploadDishPhotos(tempFilePaths) {
 }
 
 async function listDishes(filter = {}) {
-  let query = db().collection('dishes').orderBy('created_at', 'desc');
-  if (filter.source) query = query.where({ source: filter.source });
-  if (filter.type) query = query.where({ type: filter.type });
-  if (filter.tag) query = query.where({ tags: db().command.in([filter.tag]) });
-  const res = await query.limit(100).get();
+  const cmd = db().command;
+  // 多条件合并进同一个 where（小程序 db 链式二次 where 会互相覆盖）
+  const where = {};
+  if (filter.source) where.source = filter.source;
+  if (filter.type) where.type = filter.type;
+  if (filter.tag) where.tags = cmd.in([filter.tag]);
+  let query = db().collection('dishes');
+  if (Object.keys(where).length) query = query.where(where);
+  const res = await query.orderBy('created_at', 'desc').limit(100).get();
   return res.data;
 }
 
@@ -77,8 +81,4 @@ module.exports = {
   addDish,
   updateDish,
   removeDish,
-  TYPE_LABELS,
-  SOURCE_LABELS,
-  TYPE_ORDER,
-  SOURCE,
 };

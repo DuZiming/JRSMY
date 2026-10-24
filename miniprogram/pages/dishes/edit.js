@@ -140,17 +140,19 @@ Page({
     }
   },
 
-  // AI 识别：上传封面图 → 调云函数（失败自动重试 1 次）→ 解析预填；失败 toast 降级手填
+  // AI 识别：用第一张照片（新图先上传；已上传的直接用 fileID）→ 调云函数（失败自动重试 1 次）→ 解析预填
   async recognize() {
-    const cover = this.data.photos.find((p) => !p.startsWith('cloud://'));
+    const cover = this.data.photos[0];
     if (!cover) {
       wx.showToast({ title: '请先添加一张菜品照片', icon: 'none' });
       return;
     }
     this.setData({ recognizing: true });
     try {
-      const up = await uploadDishPhotos([cover]);
-      const call = () => wx.cloud.callFunction({ name: 'recognizeDish', data: { fileID: up[0] } });
+      const fileID = cover.startsWith('cloud://')
+        ? cover
+        : (await uploadDishPhotos([cover]))[0];
+      const call = () => wx.cloud.callFunction({ name: 'recognizeDish', data: { fileID } });
       let res;
       try {
         res = await call();

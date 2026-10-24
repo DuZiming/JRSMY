@@ -1,3 +1,94 @@
 <view class="page">
-  <text>添加菜品（搭建中）</text>
+  <!-- 照片 -->
+  <view class="section">
+    <view class="section-title">菜品照片（至少 1 张）</view>
+    <view class="photo-grid">
+      <view wx:for="{{photos}}" wx:key="*this" class="photo-cell">
+        <image src="{{item}}" mode="aspectFill" class="photo" data-index="{{index}}" bindtap="removePhoto" />
+        <view class="photo-del">×</view>
+      </view>
+      <view wx:if="{{photos.length < 9}}" class="photo-add" bindtap="choosePhotos">＋</view>
+    </view>
+    <button
+      class="ai-btn {{recognizing ? 'loading' : ''}}"
+      bindtap="recognize"
+      disabled="{{recognizing}}"
+    >
+      {{recognizing ? '识别中…' : '✨ 智能识别（用第一张照片自动填表）'}}
+    </button>
+    <view class="ai-tip">识别失败或不准都可以手动改，不耽误保存</view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="section">
+    <view class="row">
+      <text class="label">菜名</text>
+      <input class="input" value="{{form.name}}" bindinput="onName" placeholder="如：番茄炒蛋" />
+    </view>
+    <view class="row">
+      <text class="label">类型</text>
+      <picker range="{{typeOptions}}" value="{{typeIndex}}" bindchange="onType">
+        <view class="picker-value">{{typeOptions[typeIndex]}}</view>
+      </picker>
+    </view>
+    <view class="row">
+      <text class="label">来源</text>
+      <picker range="{{sourceOptions}}" value="{{sourceIndex}}" bindchange="onSource">
+        <view class="picker-value">{{sourceOptions[sourceIndex]}}</view>
+      </picker>
+    </view>
+    <view class="row">
+      <text class="label">辣度</text>
+      <picker range="{{spicyOptions}}" value="{{form.spicy_level}}" bindchange="onSpicy">
+        <view class="picker-value">{{spicyOptions[form.spicy_level]}}</view>
+      </picker>
+    </view>
+    <view class="row">
+      <text class="label">热量(kcal)</text>
+      <input class="input" type="digit" value="{{form.calories}}" bindinput="onCalories" placeholder="可不填" />
+    </view>
+  </view>
+
+  <!-- 标签 -->
+  <view class="section">
+    <view class="section-title">健康标签</view>
+    <view class="tags">
+      <view
+        wx:for="{{defaultTags}}"
+        wx:key="*this"
+        class="tag {{form.tags.indexOf(item) >= 0 ? 'on' : ''}}"
+        data-tag="{{item}}"
+        bindtap="toggleTag"
+      >{{item}}</view>
+      <view
+        wx:for="{{form.tags}}"
+        wx:key="*this"
+        wx:if="{{defaultTags.indexOf(item) < 0}}"
+        class="tag on"
+        data-tag="{{item}}"
+        bindtap="toggleTag"
+      >{{item}}</view>
+    </view>
+    <input class="input tag-input" bindconfirm="addCustomTag" placeholder="自定义标签，输入后按回车" confirm-type="done" />
+  </view>
+
+  <!-- 材料 -->
+  <view class="section">
+    <view class="section-title">材料（买菜清单按这里生成）</view>
+    <view wx:for="{{form.ingredients}}" wx:key="index" class="ing-row">
+      <input class="input ing-name" value="{{item.name}}" data-index="{{index}}" bindinput="onIngredientName" placeholder="材料名" />
+      <input class="input ing-amount" value="{{item.amount}}" data-index="{{index}}" bindinput="onIngredientAmount" placeholder="用量如 200克" />
+      <view class="ing-del" data-index="{{index}}" bindtap="removeIngredient">×</view>
+    </view>
+    <view class="link" bindtap="addIngredient">＋ 加一行材料</view>
+  </view>
+
+  <!-- 做法 -->
+  <view class="section">
+    <view class="section-title">做法备注（可不填）</view>
+    <textarea class="textarea" value="{{form.practice}}" bindinput="onPractice" placeholder="简单记个做法或哪家店的" />
+  </view>
+
+  <button class="save-btn" type="primary" bindtap="save" disabled="{{saving}}" loading="{{saving}}">保存</button>
+  <view class="bottom-gap" />
 </view>

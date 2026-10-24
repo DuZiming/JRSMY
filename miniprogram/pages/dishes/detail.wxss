@@ -1,3 +1,121 @@
-.page {
+.swiper {
+  height: 480rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.swiper-img {
+  width: 100%;
+  height: 100%;
+}
+
+.section {
+  background: #fff;
+  border-radius: 16rpx;
   padding: 24rpx;
+  margin-top: 20rpx;
+}
+
+.section-title {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 16rpx;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.name {
+  font-size: 40rpx;
+  font-weight: 700;
+}
+
+.badges {
+  display: flex;
+  gap: 8rpx;
+}
+
+.badge {
+  font-size: 22rpx;
+  color: #3d7a4c;
+  background: #e8f4ec;
+  border-radius: 6rpx;
+  padding: 4rpx 12rpx;
+}
+
+.badge.spicy {
+  color: #c0392b;
+  background: #fdecea;
+}
+
+.tags {
+  margin-top: 16rpx;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.tag {
+  font-size: 24rpx;
+  color: #666;
+  background: #f5f5f5;
+  border-radius: 999rpx;
+  padding: 4rpx 20rpx;
+}
+
+.calories {
+  margin-top: 16rpx;
+  color: #d35400;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.ing {
+  display: flex;
+  justify-content: space-between;
+  padding: 14rpx 0;
+  border-bottom: 1rpx solid #f2f2f2;
+  font-size: 28rpx;
+}
+
+.ing:last-child {
+  border-bottom: none;
+}
+
+.ing-amount {
+  color: #999;
+}
+
+.practice {
+  font-size: 28rpx;
+  color: #444;
+  line-height: 1.6;
+}
+
+.btns {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 28rpx;
+}
+
+.btn {
+  flex: 1;
+  font-size: 30rpx;
+  border-radius: 12rpx;
+}
+
+.btn.edit {
+  background: #52a565;
+  color: #fff;
+}
+
+.btn.del {
+  background: #fff;
+  color: #c0392b;
+  border: 1rpx solid #e5b4b0;
 }

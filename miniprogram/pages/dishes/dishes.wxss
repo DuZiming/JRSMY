@@ -1,3 +1,170 @@
-.page {
-  padding: 24rpx;
+.filters {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 16rpx 24rpx;
+}
+
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  padding: 8rpx 0;
+}
+
+.chip {
+  padding: 6rpx 24rpx;
+  border-radius: 999rpx;
+  background: #f5f5f5;
+  color: #666;
+  font-size: 24rpx;
+}
+
+.chip.on {
+  background: #52a565;
+  color: #fff;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 8rpx;
+}
+
+.count {
+  color: #999;
+  font-size: 26rpx;
+}
+
+.switch {
+  color: #52a565;
+  font-size: 26rpx;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+  padding: 120rpx 0;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+}
+
+.empty-btn {
+  margin-top: 16rpx;
+  background: #52a565;
+  font-size: 28rpx;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+}
+
+.card {
+  width: calc((100% - 20rpx) / 2);
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.card-img {
+  width: 100%;
+  height: 240rpx;
+}
+
+.card-body {
+  padding: 16rpx 20rpx;
+}
+
+.card-name {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.card-tags {
+  margin-top: 8rpx;
+  display: flex;
+  gap: 8rpx;
+}
+
+.mini-tag {
+  font-size: 22rpx;
+  color: #3d7a4c;
+  background: #e8f4ec;
+  border-radius: 6rpx;
+  padding: 2rpx 10rpx;
+}
+
+.mini-tag.spicy {
+  color: #c0392b;
+  background: #fdecea;
+}
+
+.list {
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.list-img {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 12rpx;
+  flex-shrink: 0;
+}
+
+.list-body {
+  flex: 1;
+  margin-left: 20rpx;
+  overflow: hidden;
+}
+
+.list-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  display: block;
+}
+
+.list-sub {
+  font-size: 24rpx;
+  color: #999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.arrow {
+  color: #ccc;
+  font-size: 40rpx;
+}
+
+.fab {
+  position: fixed;
+  right: 40rpx;
+  bottom: calc(200rpx + env(safe-area-inset-bottom));
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background: #52a565;
+  color: #fff;
+  font-size: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 24rpx rgba(82, 165, 101, 0.4);
 }

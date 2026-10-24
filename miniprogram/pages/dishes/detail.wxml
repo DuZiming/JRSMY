@@ -1,3 +1,40 @@
-<view class="page">
-  <text>菜品详情（搭建中）</text>
+<view wx:if="{{dish}}" class="page">
+  <swiper class="swiper" indicator-dots circular>
+    <swiper-item wx:for="{{photoUrls}}" wx:key="*this">
+      <image src="{{item}}" mode="aspectFill" class="swiper-img" />
+    </swiper-item>
+  </swiper>
+
+  <view class="section">
+    <view class="title-row">
+      <text class="name">{{dish.name}}</text>
+      <view class="badges">
+        <text class="badge">{{typeLabel}}</text>
+        <text class="badge">{{sourceLabel}}</text>
+        <text wx:if="{{dish.spicy_level > 0}}" class="badge spicy">{{spicyLabel}}</text>
+      </view>
+    </view>
+    <view wx:if="{{dish.tags.length}}" class="tags">
+      <text wx:for="{{dish.tags}}" wx:key="*this" class="tag">{{item}}</text>
+    </view>
+    <view wx:if="{{dish.calories}}" class="calories">≈ {{dish.calories}} kcal / 份</view>
+  </view>
+
+  <view wx:if="{{dish.ingredients.length}}" class="section">
+    <view class="section-title">材料</view>
+    <view wx:for="{{dish.ingredients}}" wx:key="name" class="ing">
+      <text>{{item.name}}</text>
+      <text class="ing-amount">{{item.amount || '适量'}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{dish.practice}}" class="section">
+    <view class="section-title">做法备注</view>
+    <text class="practice">{{dish.practice}}</text>
+  </view>
+
+  <view class="btns">
+    <button class="btn edit" bindtap="edit">编辑</button>
+    <button class="btn del" bindtap="remove">删除</button>
+  </view>
 </view>

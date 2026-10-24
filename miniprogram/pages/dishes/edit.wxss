@@ -1,3 +1,178 @@
-.page {
+.section {
+  background: #fff;
+  border-radius: 16rpx;
   padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 16rpx;
+}
+
+.photo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.photo-cell {
+  position: relative;
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 12rpx;
+}
+
+.photo-del {
+  position: absolute;
+  top: -10rpx;
+  right: -10rpx;
+  width: 40rpx;
+  height: 40rpx;
+  line-height: 38rpx;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 28rpx;
+}
+
+.photo-add {
+  width: 200rpx;
+  height: 200rpx;
+  border: 2rpx dashed #ccc;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60rpx;
+  color: #bbb;
+}
+
+.ai-btn {
+  margin-top: 20rpx;
+  background: #52a565;
+  color: #fff;
+  font-size: 30rpx;
+  border-radius: 12rpx;
+}
+
+.ai-btn.loading {
+  background: #9ec3a6;
+}
+
+.ai-tip {
+  font-size: 24rpx;
+  color: #999;
+  text-align: center;
+  margin-top: 12rpx;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  width: 170rpx;
+  color: #666;
+  font-size: 28rpx;
+  flex-shrink: 0;
+}
+
+.input {
+  flex: 1;
+  font-size: 28rpx;
+}
+
+.picker-value {
+  font-size: 28rpx;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.tag {
+  padding: 8rpx 28rpx;
+  border-radius: 999rpx;
+  border: 1rpx solid #ddd;
+  color: #666;
+  font-size: 26rpx;
+}
+
+.tag.on {
+  background: #e8f4ec;
+  border-color: #52a565;
+  color: #3d7a4c;
+}
+
+.tag-input {
+  margin-top: 16rpx;
+  background: #fafafa;
+  border-radius: 8rpx;
+  padding: 12rpx 16rpx;
+}
+
+.ing-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 12rpx;
+}
+
+.ing-name {
+  flex: 1.2;
+}
+
+.ing-amount {
+  flex: 1;
+  background: #fafafa;
+  border-radius: 8rpx;
+  padding: 8rpx 12rpx;
+}
+
+.ing-del {
+  width: 48rpx;
+  text-align: center;
+  color: #c00;
+  font-size: 36rpx;
+}
+
+.link {
+  color: #52a565;
+  font-size: 28rpx;
+  padding: 8rpx 0;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 140rpx;
+  font-size: 28rpx;
+}
+
+.save-btn {
+  position: fixed;
+  left: 24rpx;
+  right: 24rpx;
+  bottom: calc(24rpx + env(safe-area-inset-bottom));
+  background: #52a565;
+}
+
+.bottom-gap {
+  height: 140rpx;
 }

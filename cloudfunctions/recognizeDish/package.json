@@ -1,0 +1,10 @@
+{
+  "name": "recognizeDish",
+  "version": "1.0.0",
+  "description": "今日食咩野：菜品图片 AI 识别",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3",
+    "@cloudbase/node-sdk": "^3.16.0"
+  }
+}

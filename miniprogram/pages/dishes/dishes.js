@@ -18,6 +18,8 @@ const TYPE_FILTERS = [{ key: '', label: '全部' }].concat(
 Page({
   data: {
     dishes: [],
+    typeLabels: TYPE_LABELS,
+    sourceLabels: SOURCE_LABELS,
     sourceFilters: SOURCE_FILTERS,
     typeFilters: TYPE_FILTERS,
     tagFilters: [{ key: '', label: '全部' }].concat(DEFAULT_TAGS.map((t) => ({ key: t, label: t }))),

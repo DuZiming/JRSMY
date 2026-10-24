@@ -43,41 +43,53 @@
     <button class="empty-btn" type="primary" bindtap="addDish">＋ 添加菜品</button>
   </view>
 
-  <!-- 卡片视图 -->
+  <!-- 卡片视图：一行两个（电商双列） -->
   <view wx:if="{{viewMode === 'card'}}" class="cards">
     <view
       wx:for="{{dishes}}"
       wx:key="_id"
-      class="card"
+      class="dish-card"
+      hover-class="card-pressed"
       data-id="{{item._id}}"
       bindtap="openDetail"
     >
-      <image class="card-img" src="{{item.photos[0]}}" mode="aspectFill" />
-      <view class="card-body">
-        <text class="card-name">{{item.name}}</text>
-        <view class="card-tags">
-          <text class="mini-tag">{{item.type === 'meat' ? '荤' : item.type === 'veg' ? '素' : item.type === 'staple' ? '主食' : item.type === 'soup' ? '汤' : '饮'}}</text>
+      <image class="dish-card-img" src="{{item.photos[0]}}" mode="aspectFill" />
+      <view class="dish-card-body">
+        <text class="dish-card-name">{{item.name}}</text>
+        <view class="dish-card-row">
+          <text class="mini-tag">{{typeLabels[item.type]}}</text>
           <text wx:if="{{item.spicy_level > 0}}" class="mini-tag spicy">辣{{item.spicy_level}}</text>
+          <text wx:if="{{item.calories}}" class="dish-card-kcal">{{item.calories}}kcal</text>
         </view>
+        <text wx:if="{{item.tags.length}}" class="dish-card-sub">{{item.tags[0]}}</text>
       </view>
     </view>
   </view>
 
-  <!-- 列表视图 -->
+  <!-- 列表视图：左图右文（电商列表） -->
   <view wx:else class="list">
     <view
       wx:for="{{dishes}}"
       wx:key="_id"
       class="list-item"
+      hover-class="item-pressed"
       data-id="{{item._id}}"
       bindtap="openDetail"
     >
       <image class="list-img" src="{{item.photos[0]}}" mode="aspectFill" />
       <view class="list-body">
         <text class="list-name">{{item.name}}</text>
-        <text class="list-sub">{{item.tags.length ? item.tags.join(' · ') : '没有标签'}}</text>
+        <view class="list-badges">
+          <text class="mini-tag">{{typeLabels[item.type]}}</text>
+          <text class="mini-tag src">{{sourceLabels[item.source]}}</text>
+          <text wx:if="{{item.spicy_level > 0}}" class="mini-tag spicy">辣{{item.spicy_level}}</text>
+        </view>
+        <view class="list-meta">
+          <text wx:if="{{item.tags.length}}">{{item.tags[0]}}</text>
+          <text wx:if="{{item.calories}}">{{item.calories}} kcal</text>
+        </view>
       </view>
-      <text class="arrow">›</text>
+      <text class="icon icon-chevron" />
     </view>
   </view>
 

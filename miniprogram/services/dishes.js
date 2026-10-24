@@ -5,14 +5,25 @@ function db() {
   return wx.cloud.database();
 }
 
-// 上传前压缩（quality 70，失败容忍用原图）——同时提速上传与 AI 识别
+// 上传前压缩：最大边压到 1280 + quality 70（手机原图 4000px 级别直接送模型又慢又贵，
+// 视觉模型本身也会降采样，1280 足够识别菜品；失败容忍用原图）
+const MAX_EDGE = 1280;
+
+function getInfo(src) {
+  return new Promise((resolve) => wx.getImageInfo({ src, success: resolve, fail: () => resolve(null) }));
+}
+
 function compressTemp(filePath) {
-  return new Promise((resolve) => {
-    wx.compressImage({
-      src: filePath,
-      quality: 70,
-      success: (r) => resolve(r.tempFilePath),
-      fail: () => resolve(filePath),
+  return getInfo(filePath).then((info) => {
+    const opts = { src: filePath, quality: 70 };
+    if (info && Math.max(info.width, info.height) > MAX_EDGE) {
+      // compressedWidth 按宽度等比缩放：以长边换算到宽度
+      const isWide = info.width >= info.height;
+      const scale = MAX_EDGE / (isWide ? info.width : info.height);
+      opts.compressedWidth = Math.round(info.width * scale);
+    }
+    return new Promise((resolve) => {
+      wx.compressImage({ ...opts, success: (r) => resolve(r.tempFilePath), fail: () => resolve(filePath) });
     });
   });
 }
